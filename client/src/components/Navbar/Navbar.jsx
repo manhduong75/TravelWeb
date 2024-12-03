@@ -51,8 +51,8 @@ const Navbar = ({ handleOrderPopup }) => {
         <div className="bg-gradient-to-r from-primary to-secondary text-white ">
           <div className="container py-[2px] sm:block hidden">
             <div className="flex items-center justify-between">
-              <p className="text-sm">20% off on next booking</p>
-              <p>mobile no. +91 123456789</p>
+              <p className="text-sm">Giảm giá 20% cho lần đầu đặt</p>
+              <p>SĐT +84 123456789</p>
             </div>
           </div>
         </div>
@@ -68,22 +68,22 @@ const Navbar = ({ handleOrderPopup }) => {
               <ul className="flex items-center gap-6 ">
                 <li className="py-4">
                   <NavLink to="/" activeClassName="active">
-                    Home
+                    Trang chủ
                   </NavLink>
                 </li>
                 <li className="py-4">
                   <NavLink to="/blogs" activeClassName="active">
-                    Blogs
+                    Bài viết
                   </NavLink>
                 </li>
                 <li className="py-4">
                   <NavLink to="/best-places" activeClassName="active">
-                    Best Places
+                    Những địa điểm tốt nhất
                   </NavLink>
                 </li>
                 <li className="py-4">
                   <NavLink to="/about" activeClassName="active">
-                    About
+                    Về chúng tôi
                   </NavLink>
                 </li>
                 <li className="group relative cursor-pointer">
@@ -91,7 +91,7 @@ const Navbar = ({ handleOrderPopup }) => {
                     href="/#home"
                     className="flex h-[72px] items-center gap-[2px]"
                   >
-                    Quick Links{" "}
+                    Liên kết nhanh{" "}
                     <span>
                       <FaCaretDown className="transition-all duration-200 group-hover:rotate-180" />
                     </span>
@@ -120,8 +120,15 @@ const Navbar = ({ handleOrderPopup }) => {
                   handleOrderPopup();
                 }}
               >
-                Book Now
+                Đặt ngay
               </button>
+              <Link to={"/login"}>
+              <button
+                className="bg-gradient-to-r from-primary to-secondary hover:bg-bg-gradient-to-r hover:from-secondary hover:bg-primary transition-all duration-600 text-white px-3 py-1 rounded-full"
+              >
+                Đăng nhập
+              </button>
+              </Link>    
               {/* Mobile Hamburger icon */}
               <div className="md:hidden block">
                 {showMenu ? (

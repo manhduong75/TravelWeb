@@ -26,7 +26,7 @@ const BlogCard = ({ image, date, title, description, author }) => {
           </div>
           <div className="flex justify-between pt-2 text-slate-600">
             <p>{date}</p>
-            <p className="line-clamp-1">By {author}</p>
+            <p className="line-clamp-1">Người viết: {author}</p>
           </div>
           <div className="space-y-2 py-3">
             <h1 className="line-clamp-1 font-bold">{title}</h1>

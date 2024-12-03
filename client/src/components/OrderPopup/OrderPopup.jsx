@@ -12,7 +12,7 @@ const OrderPopup = ({ orderPopup, setOrderPopup }) => {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-xl font-semibold text-black/70">
-                  Book Your Trip
+                  Đặt chuyển đi của bạn
                 </h1>
               </div>
               <div>
@@ -26,7 +26,7 @@ const OrderPopup = ({ orderPopup, setOrderPopup }) => {
             <div className="mt-4">
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="Họ và tên"
                 className="w-full rounded-full border border-gray-300 dark:border-gray-500 dark:bg-gray-800 px-2 py-1 mb-4"
               />
               <input
@@ -36,12 +36,12 @@ const OrderPopup = ({ orderPopup, setOrderPopup }) => {
               />
               <input
                 type="text"
-                placeholder="Address"
+                placeholder="Địa chỉ"
                 className="w-full rounded-full border border-gray-300 dark:border-gray-500 dark:bg-gray-800 px-2 py-1 mb-4"
               />
               <div className="flex justify-center">
                 <button className="bg-gradient-to-r from-primary to-secondary hover:scale-105 duration-200 text-white py-1 px-4 rounded-full ">
-                  Book Now
+                  Đặt ngay
                 </button>
               </div>
             </div>

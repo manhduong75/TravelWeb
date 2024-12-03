@@ -32,11 +32,21 @@ const PlaceCard = ({
           </div>
           <p className="line-clamp-2">{description}</p>
           <div className="flex items-center justify-between border-t-2 py-3 !mt-3">
-            <div className="opacity-70">
-              <p>{type}</p>
+            <div className="flex flex-row opacity-70">
+              <p className="text-lg font-bold text-[#029BB2]">{price} VNĐ </p>
+              <span className="text-base pt-1 pl-0.5">
+              /người
+              </span>
             </div>
             <div>
-              <p className="text-2xl font-bold">{price} VNĐ</p>
+              <button
+                className="bg-gradient-to-r from-primary to-secondary hover:bg-bg-gradient-to-r hover:from-secondary hover:bg-primary transition-all duration-600 text-white px-3 py-1 rounded-full"
+                onClick={() => {
+                  handleOrderPopup();
+                }}
+              >
+                Đặt ngay
+              </button>
             </div>
           </div>
         </div>

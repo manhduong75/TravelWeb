@@ -10,6 +10,10 @@ import About from "./pages/About";
 import BlogsDetails from "./pages/BlogsDetails";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
+import Map from "./pages/Map";
+import OrderTour from "./pages/OrderTour";
 
 const App = () => {
   React.useEffect(() => {
@@ -30,9 +34,13 @@ const App = () => {
             <Route path="blogs" element={<Blogs />} />
             <Route path="blogs/:id" element={<BlogsDetails />} />
             <Route path="best-places" element={<PlacesRoute />} />
+            <Route path="tour" element={<OrderTour />} />
             <Route path="about" element={<About />} />
             <Route path="*" element={<NoPage />} />
           </Route>
+          <Route path="map" element={<Map />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="sign-up" element={<SignupPage />} />
         </Routes>
       </BrowserRouter>
     </>
