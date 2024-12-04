@@ -1,4 +1,4 @@
-export const  URL = 'https://localhost:7029';
+export const  URL = 'http://travel.com';
 
 export const PAGE_SIZE =10
 

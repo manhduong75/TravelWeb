@@ -5,6 +5,7 @@ import { FaCaretDown } from "react-icons/fa";
 import ResponsiveMenu from "./ResponsiveMenu";
 import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
 import { FaUserCircle } from 'react-icons/fa';
+import { FaMagnifyingGlassLocation } from "react-icons/fa6";
 
 export const NavbarLinks = [
   {
@@ -88,22 +89,22 @@ const Navbar = ({ handleOrderPopup }) => {
             <div className="hidden md:block">
               <ul className="flex items-center gap-6 ">
                 <li className="py-4">
-                  <NavLink to="/" activeClassName="active">
+                  <NavLink to="/" activeclassname="active">
                     Trang chủ
                   </NavLink>
                 </li>
                 <li className="py-4">
-                  <NavLink to="/blogs" activeClassName="active">
+                  <NavLink to="/blogs" activeclassname="active">
                     Bài viết
                   </NavLink>
                 </li>
                 <li className="py-4">
-                  <NavLink to="/best-places" activeClassName="active">
+                  <NavLink to="/best-places" activeclassname="active">
                     Những địa điểm tốt nhất
                   </NavLink>
                 </li>
                 <li className="py-4">
-                  <NavLink to="/about" activeClassName="active">
+                  <NavLink to="/about" activeclassname="active">
                     Về chúng tôi
                   </NavLink>
                 </li>
@@ -170,6 +171,14 @@ const Navbar = ({ handleOrderPopup }) => {
                   </button>
                 </Link>
               )}
+              <Link to="/map">
+                  <button
+                    className=""
+                  >
+                    <FaMagnifyingGlassLocation size={29} color="#00c3c7" className="text-white text-2xl cursor-pointer mt-1"
+                    />
+                  </button>
+                </Link>
               {/* Mobile Hamburger icon */}
               <div className="md:hidden block">
                 {showMenu ? (

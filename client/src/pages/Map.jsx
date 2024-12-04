@@ -288,7 +288,7 @@ const Map = () => {
                 <div className="relative">
                 <input
                   placeholder="Chọn điểm bắt đầu"
-                  value={startPoint?.address || 'Không tìm thấy địa chỉ'}
+                  value={startPoint?.address || ''}
                   onChange={(e) => setStartPoint({ ...startPoint, address: e.target.value })}
                   onBlur={() => geocode(startPoint.address, true)}
                   className="p-2 pl-6 border rounded w-full"
@@ -312,7 +312,7 @@ const Map = () => {
                 <div className="relative">
                 <input
                   placeholder="Chọn điểm đến"
-                  value={endPoint?.address || 'Không tìm thấy địa chỉ'}
+                  value={endPoint?.address || ''}
                   onChange={(e) => setEndPoint({ ...endPoint, address: e.target.value })}
                   onBlur={() => geocode(endPoint.address, false)}
                   className="p-2 pl-6 border rounded w-full"

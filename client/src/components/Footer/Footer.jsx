@@ -84,8 +84,8 @@ const Footer = () => {
                     Important Links
                   </h1>
                   <ul className="flex flex-col gap-3">
-                    {FooterLinks.map((link) => (
-                      <li className="cursor-pointer hover:translate-x-1 duration-300 hover:!text-primary space-x-1 text-gray-700 dark:text-gray-200">
+                    {FooterLinks.map((link, index) => (
+                      <li key={index} className="cursor-pointer hover:translate-x-1 duration-300 hover:!text-primary space-x-1 text-gray-700 dark:text-gray-200">
                         <Link
                           to={link.link}
                           onClick={() => window.scrollTo(0, 0)}
@@ -104,8 +104,8 @@ const Footer = () => {
                     Important Links
                   </h1>
                   <ul className="flex flex-col gap-3">
-                    {FooterLinks.map((link) => (
-                      <li className="cursor-pointer hover:translate-x-1 duration-300 hover:!text-primary space-x-1 text-gray-700 dark:text-gray-200">
+                    {FooterLinks.map((link, index) => (
+                      <li key={index} className="cursor-pointer hover:translate-x-1 duration-300 hover:!text-primary space-x-1 text-gray-700 dark:text-gray-200">
                         <Link
                           to={link.link}
                           onClick={() => window.scrollTo(0, 0)}
@@ -124,8 +124,8 @@ const Footer = () => {
                     Important Links
                   </h1>
                   <ul className="flex flex-col gap-3">
-                    {FooterLinks.map((link) => (
-                      <li className="cursor-pointer hover:translate-x-1 duration-300 hover:!text-primary space-x-1 text-gray-700 dark:text-gray-200">
+                    {FooterLinks.map((link, index) => (
+                      <li key={index} className="cursor-pointer hover:translate-x-1 duration-300 hover:!text-primary space-x-1 text-gray-700 dark:text-gray-200">
                         <Link
                           to={link.link}
                           onClick={() => window.scrollTo(0, 0)}
