@@ -1,15 +1,41 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
-// import axios from "axios";
+import { Link, useNavigate} from "react-router-dom";
+import { signIn } from "../../apis/userService";
+import { useAuth } from '../../hooks/AuthContext';
+import { ToastContext } from "../../contexts/ToastProvider";
+
 // import { toast } from "react-toastify";
-// import { server } from "../../server";
+
 const Login = () => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const { toast } = useContext(ToastContext);
+  const { login: authLogin } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await signIn({ userName, password });
+      if(response.status === 200)
+        {   
+            const { token, userName, roles } = response.data.data;
+            localStorage.setItem('Username', userName);
+            localStorage.setItem('Role', roles[0]);
+            authLogin(token);
+            toast.success("Đăng nhập thành công!");
+            setTimeout(() => {
+              navigate('/');
+            }, 3000); 
+          }
+      
+    } catch (error) {
+      toast.error("Đăng nhập thất bại. Kiểm tra lại tài khoản hoặc mật khẩu!");
+    }
   };
+
   return (
     <div className="h-screen flex justify-center ">
       <div
@@ -60,6 +86,8 @@ const Login = () => {
                 autoComplete="name"
                 required
                 placeholder="Tài khoản"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
             <div className="flex items-center border-2 mb-4 py-2 px-3 relative rounded-2xl outline-none ring-blue-500 border-blue-300 ">
@@ -82,6 +110,8 @@ const Login = () => {
                 autoComplete="current-password"
                 required
                 placeholder="Mật khẩu"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               {visible ? (
                 <AiOutlineEye

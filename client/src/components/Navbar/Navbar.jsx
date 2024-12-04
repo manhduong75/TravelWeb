@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../assets/logo.png";
 import { NavLink, Link } from "react-router-dom";
 import { FaCaretDown } from "react-icons/fa";
 import ResponsiveMenu from "./ResponsiveMenu";
 import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
+import { FaUserCircle } from 'react-icons/fa';
 
 export const NavbarLinks = [
   {
@@ -41,10 +42,30 @@ const DropdownLinks = [
 
 const Navbar = ({ handleOrderPopup }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('Username');
+    if (storedUsername) {
+      setIsLoggedIn(true);
+      setUsername(storedUsername);
+    }
+  }, []);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('Username');
+    localStorage.removeItem('Role');
+    setIsLoggedIn(false);
+    setUsername('');
+    // Điều hướng đến trang đăng nhập hoặc trang chủ
+  };
+
   return (
     <>
       <nav className="fixed top-0 right-0 w-full z-50 bg-white backdrop-blur-sm text-black shadow-md">
@@ -122,13 +143,33 @@ const Navbar = ({ handleOrderPopup }) => {
               >
                 Đặt ngay
               </button>
-              <Link to={"/login"}>
-              <button
-                className="bg-gradient-to-r from-primary to-secondary hover:bg-bg-gradient-to-r hover:from-secondary hover:bg-primary transition-all duration-600 text-white px-3 py-1 rounded-full"
-              >
-                Đăng nhập
-              </button>
-              </Link>    
+              {isLoggedIn ? (
+                <div className="relative">
+                  <FaUserCircle color="#00c3c7" size={32}
+                    className="text-white text-2xl cursor-pointer"
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                  />
+                  {showUserMenu && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
+                      <div className="px-4 py-2 text-gray-800">{username}</div>
+                      <button
+                        className="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
+                        onClick={handleLogout}
+                      >
+                        Đăng xuất
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link to="/login">
+                  <button
+                    className="bg-gradient-to-r from-primary to-secondary hover:bg-bg-gradient-to-r hover:from-secondary hover:bg-primary transition-all duration-600 text-white px-3 py-1 rounded-full"
+                  >
+                    Đăng nhập
+                  </button>
+                </Link>
+              )}
               {/* Mobile Hamburger icon */}
               <div className="md:hidden block">
                 {showMenu ? (

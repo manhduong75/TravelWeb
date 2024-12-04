@@ -14,6 +14,9 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import Map from "./pages/Map";
 import OrderTour from "./pages/OrderTour";
+import { AuthProvider } from "./hooks/AuthContext";
+import { ToastProvider } from "./contexts/ToastProvider";
+import { AfterBooked } from "./pages/AfterBooked";
 
 const App = () => {
   React.useEffect(() => {
@@ -27,22 +30,28 @@ const App = () => {
   }, []);
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="blogs" element={<Blogs />} />
-            <Route path="blogs/:id" element={<BlogsDetails />} />
-            <Route path="best-places" element={<PlacesRoute />} />
-            <Route path="tour" element={<OrderTour />} />
-            <Route path="about" element={<About />} />
-            <Route path="*" element={<NoPage />} />
-          </Route>
-          <Route path="map" element={<Map />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="sign-up" element={<SignupPage />} />
-        </Routes>
-      </BrowserRouter>
+     <AuthProvider> 
+      <ToastProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="blogs" element={<Blogs />} />
+                <Route path="blogs/:id" element={<BlogsDetails />} />
+                <Route path="best-places" element={<PlacesRoute />} />
+                <Route path="tour/:id" element={<OrderTour />} />
+                <Route path="about" element={<About />} />
+                <Route path="thank-you" element={<AfterBooked />} />
+                <Route path="*" element={<NoPage />} />
+              </Route>
+              <Route path="map" element={<Map />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="sign-up" element={<SignupPage />} />
+            </Routes>
+          </BrowserRouter>
+        </ToastProvider>
+      </AuthProvider>
+     
     </>
   );
 };

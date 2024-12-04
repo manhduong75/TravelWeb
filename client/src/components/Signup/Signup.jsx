@@ -1,16 +1,35 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-// import styles from "../../styles/styles.js";
-import { Link } from "react-router-dom";
-// import axios from "axios";
-// import { server } from "../../server.js";
-// import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContext } from "../../contexts/ToastProvider";
+import { useAuth } from '../../hooks/AuthContext';
+import { register } from "../../apis/userService";
 
 const Signup = () => {
   const [visible, setVisible] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const { toast } = useContext(ToastContext);
+  const { login: authLogin } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await register({ userName, email, password, role : "User" });
+      if(response.status === 200)
+        {   
+            authLogin();
+            toast.success("Đăng ký tài khoản thành công!");
+            setTimeout(() => {
+              navigate('/');
+            }, 3000); 
+          }
+      
+    } catch (error) {
+      toast.error("Đăng ký tài khoản thất bại!");
+    }
   };
 
   return (
@@ -63,6 +82,8 @@ const Signup = () => {
                 autoComplete="name"
                 required
                 placeholder="Tài khoản"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
             <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl outline-none ring-blue-500 border-blue-300">
@@ -88,6 +109,8 @@ const Signup = () => {
                 autoComplete="email"
                 required
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="flex items-center border-2 mb-4 py-2 px-3 relative rounded-2xl outline-none ring-blue-500 border-blue-300 ">
@@ -110,6 +133,8 @@ const Signup = () => {
                 autoComplete="current-password"
                 required
                 placeholder="Mật khẩu"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               {visible ? (
                 <AiOutlineEye

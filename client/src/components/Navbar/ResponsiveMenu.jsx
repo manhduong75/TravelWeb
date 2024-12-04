@@ -1,6 +1,6 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { NavbarLinks } from "./Navbar";
 
 const ResponsiveMenu = ({ showMenu, setShowMenu }) => {
@@ -21,15 +21,15 @@ const ResponsiveMenu = ({ showMenu, setShowMenu }) => {
         </div>
         <nav className="mt-12">
           <ul className="space-y-4 text-xl">
-            {NavbarLinks.map((data) => (
-              <li>
-                <Link
+            {NavbarLinks.map((data, index) => (
+              <li key={index}>
+                <NavLink
                   to={data.link}
                   onClick={() => setShowMenu(false)}
-                  className="mb-5 inline-block"
+                  className={({ isActive }) => (isActive ? 'active-class mb-5 inline-block' : 'mb-5 inline-block')}
                 >
                   {data.name}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
