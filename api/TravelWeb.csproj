@@ -27,7 +27,11 @@
 
   <ItemGroup>
     <Folder Include="Mappers\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Repository\" />
   </ItemGroup>
+	<ItemGroup>
+		<Content Include="Images\**" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 
 </Project>
