@@ -55,7 +55,14 @@ namespace TravelWeb.Controllers
                 {
                     _res.Status = StatusCodes.Status404NotFound.ToString();
                     _res.Messages.Add(Message.CreateErrorMessage("API_CODE", _res.Status, "Tour not found.", string.Empty));
-                    return NotFound(_res);
+                    return Ok(_res);
+                }
+
+                if (request.NumberOfTravelers > tour.TotalSlot)
+                {
+                    _res.Status = StatusCodes.Status400BadRequest.ToString();
+                    _res.Messages.Add(Message.CreateWarningMessage("API_CODE", _res.Status, "Số lượng khách du lịch vượt quá tổng số chỗ cho phép!", string.Empty));
+                    return Ok(_res);
                 }
 
                 var totalPrice = tour.Price * request.NumberOfTravelers;
@@ -86,6 +93,7 @@ namespace TravelWeb.Controllers
                 return StatusCode(500, _res);
             }
         }
+
 
 
         [HttpPost("RBK01")]
@@ -208,7 +216,7 @@ namespace TravelWeb.Controllers
                 return StatusCode(500, _res);
             }
         }
-        [HttpPut("UBK01/{id}")]
+        [HttpPost("UBK01/{id}")]
         [Authorize]
         public async Task<IActionResult> UpdatePaymentStatus(int id, [FromBody] UpdatePaymentStatusDto request)
         {
