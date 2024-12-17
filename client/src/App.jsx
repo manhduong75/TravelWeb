@@ -17,6 +17,7 @@ import OrderTour from "./pages/OrderTour";
 import { AuthProvider } from "./hooks/AuthContext";
 import { ToastProvider } from "./contexts/ToastProvider";
 import { AfterBooked } from "./pages/AfterBooked";
+import CreateTour from "./pages/CreateTour";
 
 const App = () => {
   React.useEffect(() => {
@@ -42,6 +43,7 @@ const App = () => {
                 <Route path="tour/:id" element={<OrderTour />} />
                 <Route path="about" element={<About />} />
                 <Route path="thank-you" element={<AfterBooked />} />
+                <Route path="create-tour" element={<CreateTour />} />
                 <Route path="*" element={<NoPage />} />
               </Route>
               <Route path="map" element={<Map />} />

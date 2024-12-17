@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Logo from "../../assets/logo.png";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaCaretDown } from "react-icons/fa";
 import ResponsiveMenu from "./ResponsiveMenu";
 import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
 import { FaUserCircle } from 'react-icons/fa';
 import { FaMagnifyingGlassLocation } from "react-icons/fa6";
-
+import { ToastContext } from "../../contexts/ToastProvider";
+import avatar from "../../assets/avt-about-us.png";
 export const NavbarLinks = [
   {
     name: "Home",
@@ -46,6 +47,9 @@ const Navbar = ({ handleOrderPopup }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const { toast } = useContext(ToastContext);
+  const navigate = useNavigate();
+  const role = localStorage.getItem('Role');
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('Username');
@@ -64,7 +68,12 @@ const Navbar = ({ handleOrderPopup }) => {
     localStorage.removeItem('Role');
     setIsLoggedIn(false);
     setUsername('');
-    // Điều hướng đến trang đăng nhập hoặc trang chủ
+    toast.success(
+      "Đăng xuất thành công!"
+    );
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
   };
 
   return (
@@ -146,13 +155,31 @@ const Navbar = ({ handleOrderPopup }) => {
               </button>
               {isLoggedIn ? (
                 <div className="relative">
-                  <FaUserCircle color="#00c3c7" size={32}
+                  {/* <FaUserCircle color="#00c3c7" size={32}
                     className="text-white text-2xl cursor-pointer"
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                  /> */}
+                  <img 
+                    src={avatar} 
+                    alt={`${username}'s avatar`} 
+                    className="w-8 h-8 rounded-full object-cover border-2 border-primary shadow-md cursor-pointer"
                     onClick={() => setShowUserMenu(!showUserMenu)}
                   />
                   {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
-                      <div className="px-4 py-2 text-gray-800">{username}</div>
+                    <div className="absolute right-0 mt-2 w-36 bg-white rounded-md shadow-lg py-1 divide-y">
+                      <div className="px-4 py-2 text-gray-800 ">{username}</div>
+                      { role === 'Admin' ? (
+                        <div className="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
+                          <Link to="/create-tour">
+                            Thêm địa điểm
+                          </Link>
+                        </div>
+                        
+                      ) : (
+                        <>
+                        </>
+                      )
+                      }
                       <button
                         className="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
                         onClick={handleLogout}

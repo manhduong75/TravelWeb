@@ -1,8 +1,13 @@
 import { publicAxiosClient, privateAxiosClient } from './axiosClient';
-import { GET_LIST_TOUR, INSERT_TOUR, SEARCH_TOUR } from './constant';
+import { GET_HOT_TOUR, GET_LIST_TOUR, INSERT_TOUR, SEARCH_TOUR } from './constant';
 
 const getTour = async (body) => {
     return await publicAxiosClient.post(GET_LIST_TOUR, body);
+};
+
+
+const getHotTour = async (body) => {
+    return await publicAxiosClient.post(GET_HOT_TOUR, body);
 };
 
 const getTourDetail = async (id) => {
@@ -18,4 +23,4 @@ const insertTour = async (body) => {
 }
 
 
-export default { getTour, getTourDetail, searchTour, insertTour };
+export default { getTour, getTourDetail, searchTour, insertTour, getHotTour };

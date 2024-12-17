@@ -6,6 +6,7 @@
         {
             public int Page { get; set; }
             public int PageSize { get; set; }
+            public string? Destination { get; set; }
             public decimal? MinPrice { get; set; }
             public decimal? MaxPrice { get; set; }
             public Boolean? PriceEsc { get; set; }

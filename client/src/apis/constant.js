@@ -19,6 +19,7 @@ export const INSERT_REVIEW = '/api/IRV01'
 
 //Tour
 export const GET_LIST_TOUR = '/api/RTO01';
+export const GET_HOT_TOUR = '/api/RTO03';
 export const GET_TOUR_DETAIL = '/api/RTO01/:id';
 export const SEARCH_TOUR = '/api/RTO02';
 export const INSERT_TOUR = "/api/ITO01"

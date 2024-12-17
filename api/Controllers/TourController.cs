@@ -9,6 +9,7 @@ using System.Linq;
 using TravelWeb.Data;
 using TravelWeb.Extensions;
 using TravelWeb;
+using Azure.Core;
 
 namespace TravelWeb.Controllers
 {
@@ -98,53 +99,111 @@ namespace TravelWeb.Controllers
             }
         }
 
-        [HttpPost("RTO02")]
-        public IActionResult SearchTours([FromBody] TourDto.TourSearchRequest searchRequest)
+
+    [HttpPost("RTO02")]
+    public IActionResult SearchTours([FromBody] TourDto.TourSearchRequest searchRequest)
+    {
+        try
+        {
+            IQueryable<Tour> query;
+
+            if (!string.IsNullOrEmpty(searchRequest.Destination))
+            {
+                query = _context.Tours.FromSqlRaw("SELECT * FROM Tours WHERE FREETEXT(Destination, @p0)", searchRequest.Destination);
+            }
+            else
+            {
+                query = _context.Tours.AsQueryable();
+            }
+
+            if (searchRequest.MinPrice.HasValue)
+            {
+                query = query.Where(t => t.Price >= searchRequest.MinPrice.Value);
+            }
+
+            if (searchRequest.MaxPrice.HasValue)
+            {
+                query = query.Where(t => t.Price <= searchRequest.MaxPrice.Value);
+            }
+
+            if (searchRequest.PriceEsc.HasValue && searchRequest.PriceEsc.Value)
+            {
+                query = query.OrderBy(t => t.Price);
+            }
+
+            if (searchRequest.PriceDesc.HasValue && searchRequest.PriceDesc.Value)
+            {
+                query = query.OrderByDescending(t => t.Price);
+            }
+
+            var totalItems = query.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)searchRequest.PageSize);
+
+            var tours = query
+                .Select(t => new TourDto.TourResponse
+                {
+                    Id = t.Id,
+                    Destination = t.Destination,
+                    Country = t.Country,
+                    Description = t.Description,
+                    TotalSlot = t.TotalSlot,
+                    MainImage = $"{Request.Scheme}://{Request.Host}/images/" + _context.Images.Where(i => i.TourId == t.Id && i.IsMainImage == true).Select(i => i.ImageUrl).FirstOrDefault(),
+                    Price = t.Price,
+                    Rate = t.Rate,
+                    TimeLine = t.TimeLine,
+                    Total = totalItems,
+                    TotalPage = totalPages
+                })
+                .Skip((searchRequest.Page - 1) * searchRequest.PageSize)
+                .Take(searchRequest.PageSize)
+                .ToList();
+
+            _res.Status = StatusCodes.Status200OK.ToString();
+            _res.Data = tours;
+            return Ok(_res);
+        }
+        catch (System.Exception ex)
+        {
+            _res.Status = StatusCodes.Status500InternalServerError.ToString();
+            _res.Messages.Add(Message.CreateErrorMessage("API_CODE", _res.Status, ex.Message, string.Empty));
+            return StatusCode(500, _res);
+        }
+    }
+        [HttpPost("RTO03")]
+        public IActionResult GetHotTour([FromBody] TourDto.GetTourRequest request)
         {
             try
             {
-                var query = _context.Tours.AsQueryable();
-
-                if (searchRequest.MinPrice.HasValue)
-                {
-                    query = query.Where(t => t.Price >= searchRequest.MinPrice.Value);
-                }
-
-                if (searchRequest.MaxPrice.HasValue)
-                {
-                    query = query.Where(t => t.Price <= searchRequest.MaxPrice.Value);
-                }
-
-                if (searchRequest.PriceEsc.HasValue && searchRequest.PriceEsc.Value)
-                {
-                    query = query.OrderBy(t => t.Price);
-                }
-
-                if (searchRequest.PriceDesc.HasValue && searchRequest.PriceDesc.Value)
-                {
-                    query = query.OrderByDescending(t => t.Price);
-                }
-
-                var totalItems = query.Count();
-                var totalPages = (int)Math.Ceiling(totalItems / (double)searchRequest.PageSize);
-
-                var tours = query
-                    .Select(t => new TourDto.TourResponse
+                var topBooking = _context.Bookings
+                    .GroupBy(b => b.TourId)
+                    .Select(g => new
                     {
-                        Id = t.Id,
-                        Destination = t.Destination,
-                        Country = t.Country,
-                        Description = t.Description,
-                        TotalSlot = t.TotalSlot,
-                        MainImage = $"{Request.Scheme}://{Request.Host}/images/" + _context.Images.Where(i => i.TourId == t.Id && i.IsMainImage == true).Select(i => i.ImageUrl).FirstOrDefault(),
-                        Price = t.Price,
-                        Rate = t.Rate,
-                        TimeLine = t.TimeLine,
-                        Total = totalItems,
-                        TotalPage = totalPages
+                        TourId = g.Key,
+                        TotalBooking = g.Count()
                     })
-                    .Skip((searchRequest.Page - 1) * searchRequest.PageSize)
-                    .Take(searchRequest.PageSize)
+                    .OrderByDescending(g => g.TotalBooking)
+                    .Take(6)
+                    .ToList();
+
+                var tourIds = topBooking.Select(tb => tb.TourId).ToList();
+                var tours = _context.Tours
+                    .Where(t => tourIds.Contains(t.Id))
+                    .Select(t => new
+                    {
+                        id = t.Id,
+                        destination = t.Destination,
+                        country = t.Country,
+                        description = t.Description,
+                        totalSlot = t.TotalSlot,
+                        mainImage = $"{Request.Scheme}://{Request.Host}/images/" + _context.Images.Where(i => i.TourId == t.Id && i.IsMainImage == true).Select(i => i.ImageUrl).FirstOrDefault(),
+                        price = t.Price,
+                        timeLine = t.TimeLine,
+                        rate = t.Rate,
+                        total = _context.Tours.Count(),
+                        totalPage = (int)Math.Ceiling((double)_context.Tours.Count() / request.PageSize)
+                    })
+                    .Skip((request.Page - 1) * request.PageSize)
+                    .Take(request.PageSize)
                     .ToList();
 
                 _res.Status = StatusCodes.Status200OK.ToString();
@@ -158,6 +217,8 @@ namespace TravelWeb.Controllers
                 return StatusCode(500, _res);
             }
         }
+
+
         [HttpPost("ITO01")]
         [Authorize]
         public async Task<IActionResult> InsertTourWithImages([FromForm] TourDto.InsertTourRequest request)

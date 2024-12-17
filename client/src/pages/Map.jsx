@@ -13,6 +13,9 @@ import {
   FaBicycle, 
   FaWalking 
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import Logo from "../assets/logo.png";
+
 
 const Map = () => {
   const mapRef = useRef(null);
@@ -274,9 +277,18 @@ const Map = () => {
 
         {isSidebarOpen && (
           <div className="p-2 h-full overflow-auto m-2">
+            <div className="flex items-center gap-4 font-bold text-xl pb-2">
+              <Link to={"/"} onClick={() => window.scrollTo(0, 0)} className='flex flex-row items-center'>
+                <img src={Logo} alt="" className="h-12" />
+                <h2 className="text-2xl font-semibold flex items-center gap-2 ml-3">
+                    Bản đồ
+                 </h2>
+              </Link>
+              {/* <span>TCJ Tourism</span> */}
+            </div>
             <h2 className="text-xl font-semibold mb-5 flex items-center gap-2">
               <Search className="w-7 h-7" />
-              Tìm kiếm trên Map
+              Tìm kiếm đường đi
             </h2>
 
             <div className="space-y-4">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import tourService from "../apis/tourService";
 import bookingService from "../apis/bookingService";
@@ -11,6 +11,8 @@ import { IoIosTimer } from "react-icons/io";
 import { GoLocation, GoPeople } from "react-icons/go";
 import { GiMoneyStack } from "react-icons/gi";
 import { formatNumber } from "../mixin";
+import CommentComp from "../components/Comment/CommentComp";
+import AddComment from "../components/Comment/AddComment";
 
 const OrderTour = () => {
   const { id } = useParams();
@@ -20,6 +22,12 @@ const OrderTour = () => {
   const [numberOfTravelers, setNumberOfTravelers] = useState(1);
   const { toast } = useContext(ToastContext);
   const navigate = useNavigate();
+  const [refreshComments, setRefreshComments] = useState(false);
+
+
+const handleCommentAdded = () => {
+  setRefreshComments(prev => !prev);
+};
 
   useEffect(() => {
     const fetchTourDetail = async () => {
@@ -33,8 +41,10 @@ const OrderTour = () => {
       }
     };
 
-    fetchTourDetail();
-  }, [id]);
+    if (id) {
+      fetchTourDetail();
+    }
+  }, [id, toast]);
 
   const handleBooking = async () => {
     const bookingData = {
@@ -54,7 +64,7 @@ const OrderTour = () => {
           );
           setTimeout(() => {
             navigate("/thank-you");
-          }, 3000);
+          }, 2000);
         } else {
           toast.warn(response.data.messages[0].messageText);
         }
@@ -93,7 +103,7 @@ const OrderTour = () => {
                   ))}
               </Slider>
             </div>
-            <div className="w-full h-auto object-cover rounded-lg border border-slate-400 mt-10">
+            <div className="w-full h-auto object-cover rounded-lg border mt-10 shadow-lg">
               <div className="mx-6 my-6">
                 <h2 className="mt-4 text-3xl font-semibold mb-4">
                   {tourDetail.destination}
@@ -118,17 +128,26 @@ const OrderTour = () => {
                 </div>
               </div>
             </div>
+            <div className="pt-8">
+        <AddComment 
+          tourId={id} 
+          onCommentAdded={handleCommentAdded} 
+        />
+      </div>
+            <div>
+              <CommentComp tourId={id} refresh={refreshComments}/>
+            </div>
           </div>
         ) : (
           <p>Loading...</p>
         )}
       </div>
-      <div className="w-full object-cover rounded-lg border border-slate-400 mt-4 h-1/2">
+      <div className="w-full object-cover rounded-lg border shadow-lg mt-4 h-1/2">
         <div className="flex flex-row items-end mb-4 justify-between mx-6 my-6 pb-8 border-b">
           <div className="flex flex-row">
             <GiMoneyStack size={26} className="mr-1 mt-1" />
             <h2 className="text-2xl font-bold">
-              {tourDetail && formatNumber(tourDetail.price)} VNĐ /người
+              {tourDetail ? formatNumber(tourDetail.price) : 0} VNĐ /người
             </h2>
           </div>
           <div className="flex flex-row items-center">
@@ -188,7 +207,7 @@ const OrderTour = () => {
                 Tổng cộng:
               </h2>
               <h2 className="text-lg font-semibold ">
-                {formatNumber(tourDetail.price * numberOfTravelers)} VNĐ
+                {tourDetail ? formatNumber(tourDetail.price * numberOfTravelers) : 0} VNĐ
               </h2>
             </div>
             <button

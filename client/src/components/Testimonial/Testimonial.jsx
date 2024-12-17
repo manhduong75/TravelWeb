@@ -4,20 +4,20 @@ import Slider from "react-slick";
 const testimonialData = [
   {
     id: 1,
-    name: "Samuel",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque reiciendis inventore iste ratione ex alias quis magni at optio",
+    name: "CR7",
+    text: "Khung cảnh và đồ ăn ở Việt Nam thật sự rất đa dạng và đặc sắc. Chắc chắn tôi sẽ quay lại đây lần nữa!",
     img: "https://picsum.photos/101/101",
   },
   {
     id: 1,
-    name: "John Doe",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque reiciendis inventore iste ratione ex alias quis magni at optio",
+    name: "Marcus Grapfood",
+    text: "Trải nghiệm ở Việt Nam thật sự tuyệt vời! Hy vọng sẽ quay lại đây lần nữa!",
     img: "https://picsum.photos/102/102",
   },
   {
     id: 1,
-    name: "Smith",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque reiciendis inventore iste ratione ex alias quis magni at optio",
+    name: "Messi",
+    text: "Việt Nam là một trong những quốc gia tuyệt vời nhất mà tôi đã từng đến!",
     img: "https://picsum.photos/103/103",
   },
 ];
@@ -68,14 +68,12 @@ const Testimonial = () => {
           {/* Header section */}
           <div className="text-center mb-20 max-w-[400px] mx-auto">
             <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-              Testimonial
+              
             </p>
-            <h1 className="text-3xl font-bold">Testimonial</h1>
+            <h1 className="text-3xl font-bold">Bình luận nổi bật</h1>
             <p className="text-xs text-gray-400">
               {" "}
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero
-              nesciunt explicabo a! Laborum delectus aliquam labore, earum rerum
-              quam! Nulla?
+              Những bình luận từ những khách hàng hài lòng với dịch vụ của chúng tôi
             </p>
           </div>
           {/* testimonial section */}

@@ -23,8 +23,8 @@ const Signup = () => {
             authLogin();
             toast.success("Đăng ký tài khoản thành công!");
             setTimeout(() => {
-              navigate('/');
-            }, 3000); 
+              navigate('/login');
+            }, 2000); 
           }
       
     } catch (error) {
