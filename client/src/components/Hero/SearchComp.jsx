@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { formatNumber } from '../../mixin';
 
 export const SearchComp = () => {
     const [destination, setDestination] = useState('');
@@ -44,7 +45,7 @@ export const SearchComp = () => {
                 <label htmlFor="destination" className="opacity-70 block">
                   <div className="w-full flex justify-between items-center">
                     <p>Giá tối đa</p>
-                    <p className="font-bold text-xl">{priceValue} VNĐ</p>
+                    <p className="font-bold text-xl">{formatNumber(priceValue)} VNĐ</p>
                   </div>
                 </label>
                 <div className=" bg-gray-100 rounded-full p-2 flex items-center justify-center ">
